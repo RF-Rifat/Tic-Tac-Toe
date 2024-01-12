@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Button from "./Button";
 
-const Square = ({ value, setValue }) => {
+const Square = () => {
+  const [value, setValue] = useState(Array(9).fill(0));
   return (
     <>
       <div className="flex">
