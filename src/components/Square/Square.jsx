@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Calculate from "./Hook/Calculate";
 
-const Square = () => {
-  const [value, setValue] = useState(Array(9).fill(0));
+const Square = ({ setWin }) => {
+  const [value, setValue] = useState(Array(9).fill(null));
+  const [isValueX, setIsValueX] = useState(true);
+
+  const Winner = Calculate(value);
+  let status;
+  if (Winner) {
+    status = `winner - ${Winner}`;
+  } else {
+    status = `Next Player : ${isValueX ? "X" : "O"}`;
+  }
+  useEffect(() => {
+    setWin(status)
+  }, [setWin, status]);
   const handleButtonClick = (index) => {
     const newValues = value.slice();
-    newValues[index] = "X";
-    console.log("Square index:", index);
+    if (value[index] || Calculate(value)) {
+      return;
+    }
+    if (isValueX) {
+      newValues[index] = "X";
+    } else {
+      newValues[index] = "O";
+    }
     setValue(newValues);
+    setIsValueX(!isValueX);
   };
 
   return (
     <>
-      <div className="flex">
+      <div className="flex gap-3">
         <button
           className="bg-white border border-zinc-500 h-20 w-20 m-1 leading-9 text-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-100"
           value={value[0]}
@@ -34,7 +54,7 @@ const Square = () => {
           {value[2]}
         </button>
       </div>
-      <div className="flex">
+      <div className="flex gap-3">
         <button
           className="bg-white border border-zinc-500 h-20 w-20 m-1 leading-9 text-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-100"
           value={value[3]}
@@ -57,7 +77,7 @@ const Square = () => {
           {value[5]}
         </button>
       </div>
-      <div className="flex">
+      <div className="flex gap-3">
         <button
           className="bg-white border border-zinc-500 h-20 w-20 m-1 leading-9 text-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-100"
           value={value[6]}
