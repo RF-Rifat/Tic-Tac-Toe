@@ -15,8 +15,7 @@ const Calculate = (value) => {
     if (value[a] && value[a] === value[b] && value[a] === value[c]) {
       return value[a];
     }
-    return null;
   }
-  return "gaga";
+  return null;
 };
 export default Calculate;
